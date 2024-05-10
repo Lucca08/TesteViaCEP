@@ -1,5 +1,6 @@
 package com.example.TesteViaCEP;
 
+
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ public class CepValidationTest {
 
     private String cepValido = "01001000"; 
     private String cepInvalido = "00000000";
+    private String meuCep = "90010282";
 
     @Test
     public void testCepValido() {
@@ -40,6 +42,26 @@ public class CepValidationTest {
             .body("ddd", equalTo("11"))
             .body("siafi", equalTo("7107"));
     }
+
+    @Test
+    public void testMeuCep() {
+        Response expectedResponse = given()
+            .when()
+            .get(viaCepEndpoint + meuCep + "/json")
+            .then()
+            .statusCode(200)
+            .extract()
+            .response(); 
+
+        given()
+            .when()
+            .get(viaCepEndpoint + meuCep + "/json")
+            .then()
+            .statusCode(200)
+            .body(equalTo(expectedResponse.getBody().asString()));
+    }
+    
+
 
     @Test
     public void testCepInvalido() {
