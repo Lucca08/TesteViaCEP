@@ -1,6 +1,6 @@
 package com.example.TesteViaCEP;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
