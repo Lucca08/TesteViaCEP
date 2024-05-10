@@ -41,6 +41,8 @@ public class CepValidationTest {
             .body("gia", equalTo("1004"))
             .body("ddd", equalTo("11"))
             .body("siafi", equalTo("7107"));
+
+            
     }
 
     @Test
@@ -61,8 +63,6 @@ public class CepValidationTest {
             .body(equalTo(expectedResponse.getBody().asString()));
     }
     
-
-
     @Test
     public void testCepInvalido() {
 
