@@ -2,6 +2,7 @@ package com.example.TesteViaCEP;
 
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +16,54 @@ public class CepValidationTest {
     @Value("${viacep.endpoint}")
     private String viaCepEndpoint;
 
-    private String cepValido = "01001000"; 
-    private String cepInvalido = "00000000";
-    private String meuCep = "90010282";
+    @Test 
+    public void testCepVazio() {
+        String cepVazio = "";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepVazio + "/json")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void testContratoCepValido(){
+        String cepValido = "01001000"; 
+        
+        given()
+            .when()
+                .get(viaCepEndpoint + cepValido + "/json") 
+            .then()
+                .statusCode(200)
+                .body("$", hasKey("cep"))
+                .body("$", hasKey("logradouro"))
+                .body("$", hasKey("complemento"))
+                .body("$", hasKey("bairro"))
+                .body("$", hasKey("localidade"))
+                .body("$", hasKey("uf"))
+                .body("$", hasKey("ibge"))
+                .body("$", hasKey("gia"))
+                .body("$", hasKey("ddd"))
+                .body("$", hasKey("siafi"));       
+    }
+
+    @Test
+    public void testContratoCepInvalido(){
+        String cepInvalido = "00000000";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepInvalido + "/json")
+            .then()
+                .statusCode(200)
+                .body("$", hasKey("erro"));
+    }
+    
 
     @Test
     public void testCepValido() {
+        String cepValido = "01001000";
 
         Response response = given()
             .when()
@@ -46,25 +89,8 @@ public class CepValidationTest {
     }
 
     @Test
-    public void testMeuCep() {
-        Response expectedResponse = given()
-            .when()
-            .get(viaCepEndpoint + meuCep + "/json")
-            .then()
-            .statusCode(200)
-            .extract()
-            .response(); 
-
-        given()
-            .when()
-            .get(viaCepEndpoint + meuCep + "/json")
-            .then()
-            .statusCode(200)
-            .body(equalTo(expectedResponse.getBody().asString()));
-    }
-    
-    @Test
     public void testCepInvalido() {
+        String cepInvalido = "00000000";
 
         given()
             .when()
