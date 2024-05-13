@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 
 @SpringBootTest
 public class CepValidationTest {
@@ -47,6 +49,8 @@ public class CepValidationTest {
                 .body("$", hasKey("ddd"))
                 .body("$", hasKey("siafi"));       
     }
+
+    
 
     @Test
     public void testContratoCepInvalido(){
@@ -99,5 +103,18 @@ public class CepValidationTest {
                 .statusCode(200)
                 .body("erro", equalTo(true));
     }
+
+    @Test
+    public void exemploContratoValidar() {
+        String cepValido = "01001000"; 
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepValido + "/json") 
+            .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas\\exemplo-schema.json"));
+    }
+    
 }
 
