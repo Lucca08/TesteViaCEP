@@ -115,6 +115,63 @@ public class CepValidationTest {
                 .statusCode(200)
                 .body(matchesJsonSchemaInClasspath("schemas\\exemplo-schema.json"));
     }
+
+    @Test
+    public void exemploContratoInvalidar() {
+        String cepInvalido = "00000000";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepInvalido + "/json")
+            .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas\\exemplo-schema.json"));
+    }
+
+    @Test
+    public void testDeLimiteMinimoDeCaracteres() {
+        String cepLimiteMinimo = "0000000";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepLimiteMinimo + "/json")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void testDeLimiteMaximoDeCaracteres() {
+        String cepLimiteMaximo = "000000000";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepLimiteMaximo + "/json")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    public void testDeCaracteresJaFormatados() {
+        String cepCaracteresEspeciais = "00000-000";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepCaracteresEspeciais + "/json")
+            .then()
+                .statusCode(200);
+    }
+
+    @Test
+    public void testDeCepInexistente() {
+        String cepInexistente = "12345678";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + cepInexistente + "/json")
+            .then()
+                .statusCode(200)
+                .body("erro", equalTo(true));
+    }
     
 }
 
