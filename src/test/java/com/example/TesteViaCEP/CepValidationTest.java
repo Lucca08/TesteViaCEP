@@ -4,12 +4,18 @@ package com.example.TesteViaCEP;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 
+import org.checkerframework.checker.units.qual.s;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Description;
+
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 
 
 @SpringBootTest
@@ -18,7 +24,9 @@ public class CepValidationTest {
     @Value("${viacep.endpoint}")
     private String viaCepEndpoint;
 
-    @Test 
+    @Test
+    @Description("Teste de CEP vazio")
+    @Step("Teste de CEP vazio") 
     public void testCepVazio() {
         String cepVazio = "";
 
@@ -30,6 +38,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de contrato CEP valido")
+    @Step("Teste de contrato CEP valido")
     public void testContratoCepValido(){
         String cepValido = "01001000"; 
         
@@ -53,6 +63,8 @@ public class CepValidationTest {
     
 
     @Test
+    @Description("Teste de contrato CEP inválido")
+    @Step("Teste de contrato CEP inválido")
     public void testContratoCepInvalido(){
         String cepInvalido = "00000000";
 
@@ -66,6 +78,8 @@ public class CepValidationTest {
     
 
     @Test
+    @Description("Teste CEP valido")
+    @Step("Teste CEP valido")
     public void testCepValido() {
         String cepValido = "01001000";
 
@@ -93,6 +107,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de CEP inválido")
+    @Step("Teste de CEP inválido")
     public void testCepInvalido() {
         String cepInvalido = "00000000";
 
@@ -105,6 +121,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de Contrato Validar")
+    @Step("Teste de Contrato Validar")
     public void exemploContratoValidar() {
         String cepValido = "01001000"; 
 
@@ -117,6 +135,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de Contrato Invalidar")
+    @Step("Teste de Contrato Invalidar")
     public void exemploContratoInvalidar() {
         String cepInvalido = "00000000";
 
@@ -129,6 +149,7 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de CEP de Limite Mínimo de Caracteres")
     public void testDeLimiteMinimoDeCaracteres() {
         String cepLimiteMinimo = "0000000";
 
@@ -140,6 +161,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de CEP de Limite Máximo de Caracteres")
+    @Step("Teste de CEP de Limite Máximo de Caracteres")
     public void testDeLimiteMaximoDeCaracteres() {
         String cepLimiteMaximo = "000000000";
 
@@ -151,6 +174,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de CEP de Caracteres Especiais")
+    @Step("Teste de CEP de Caracteres Especiais")
     public void testDeCaracteresJaFormatados() {
         String cepCaracteresEspeciais = "00000-000";
 
@@ -162,6 +187,8 @@ public class CepValidationTest {
     }
 
     @Test
+    @Description("Teste de CEP Inexistente")
+    @Step("Teste de CEP Inexistente")
     public void testDeCepInexistente() {
         String cepInexistente = "12345678";
 
