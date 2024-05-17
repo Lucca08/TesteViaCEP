@@ -52,4 +52,4 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 ## Relatório gerado pelo Allure:
 
-![Imagem do Relatório](src\main\resources\img\relatorioViaCep.png)
+![Imagem do Relatório](src/main/resources/img/relatorioViaCEP.png)
