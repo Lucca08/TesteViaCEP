@@ -40,8 +40,15 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 1. Execute o projeto:
     ```bash
-    ./gradlew bootRun
+    ./gradlew test
     ```
+## 4-Bugs Encontrados:
+## Bug cep não encontrado: 
+    No teste deveRetornar400QuandoCepNaoForInformado estava sendo retornado 400 mas deveria ser retornado 404, de acordo com a documentação do ViaCEP e de acordo com o padrão restfull, já que o retorno de um recurso inexistente é 404.
+## Bug cep não cadastrado:
+    No teste deveRetornar404QuandoCepNaoEstiverCadastrado estava sendo retornado 400 mas deveria ser retornado 404, de acordo com a documentação do ViaCEP, o retorno de um CEP inexistente é 404 e de acordo com o padrão restfULL, o retorno de um recurso inexistente é 404.
+
+
 
 ## 4-Gerar Relatorio de Teste
 

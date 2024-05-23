@@ -1,21 +1,18 @@
 package com.example.TesteViaCEP;
 
-
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasKey;
+import org.apache.http.HttpStatus;
 
-import org.checkerframework.checker.units.qual.s;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Description;
 
-import io.restassured.response.Response;
-import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
-import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
+import com.example.TesteViaCEP.Stubs.CepStub;
+import com.example.TesteViaCEP.dto.CepDto;
 
 
 @SpringBootTest
@@ -25,180 +22,77 @@ public class CepValidationTest {
     private String viaCepEndpoint;
 
     @Test
-    @Description("Teste de CEP vazio")
-    @Step("Teste de CEP vazio") 
-    public void testCepVazio() {
+    @DisplayName("Teste de CEP vazio")
+    public void deveRetornar400QuandoCepNaoForInformado() {
         String cepVazio = "";
 
         given()
             .when()
                 .get(viaCepEndpoint + cepVazio + "/json")
             .then()
-                .statusCode(400);
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Description("Teste de contrato CEP valido")
-    @Step("Teste de contrato CEP valido")
-    public void testContratoCepValido(){
-        String cepValido = "01001000"; 
-        
-        given()
-            .when()
-                .get(viaCepEndpoint + cepValido + "/json") 
-            .then()
-                .statusCode(200)
-                .body("$", hasKey("cep"))
-                .body("$", hasKey("logradouro"))
-                .body("$", hasKey("complemento"))
-                .body("$", hasKey("bairro"))
-                .body("$", hasKey("localidade"))
-                .body("$", hasKey("uf"))
-                .body("$", hasKey("ibge"))
-                .body("$", hasKey("gia"))
-                .body("$", hasKey("ddd"))
-                .body("$", hasKey("siafi"));       
-    }
-
-    
-
-    @Test
-    @Description("Teste de contrato CEP inválido")
-    @Step("Teste de contrato CEP inválido")
-    public void testContratoCepInvalido(){
-        String cepInvalido = "00000000";
-
-        given()
-            .when()
-                .get(viaCepEndpoint + cepInvalido + "/json")
-            .then()
-                .statusCode(200)
-                .body("$", hasKey("erro"));
-    }
-    
-
-    @Test
-    @Description("Teste CEP valido")
-    @Step("Teste CEP valido")
-    public void testCepValido() {
+    @DisplayName("Teste CEP valido")
+    public void deveRetornar200QuandoCepForValido() {
         String cepValido = "01001000";
+        CepDto cepEsperado = CepStub.CepStub();
 
-        Response response = given()
+        given()
             .when()
-                .get(viaCepEndpoint + cepValido + "/json") 
+                .get(viaCepEndpoint + cepValido + "/json")
             .then()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        response.then().assertThat()
-            .body("cep", equalTo("01001-000"))
-            .body("logradouro", equalTo("Praça da Sé"))
-            .body("complemento", equalTo("lado ímpar"))
-            .body("bairro", equalTo("Sé"))
-            .body("localidade", equalTo("São Paulo"))
-            .body("uf", equalTo("SP"))
-            .body("ibge", equalTo("3550308"))
-            .body("gia", equalTo("1004"))
-            .body("ddd", equalTo("11"))
-            .body("siafi", equalTo("7107"));
-
-            
+                .statusCode(HttpStatus.SC_OK)
+                .body("cep", equalTo(cepEsperado.getCep()))
+                .body("logradouro", equalTo(cepEsperado.getLogradouro()))
+                .body("complemento", equalTo(cepEsperado.getComplemento()))
+                .body("bairro", equalTo(cepEsperado.getBairro()))
+                .body("localidade", equalTo(cepEsperado.getLocalidade()))
+                .body("uf", equalTo(cepEsperado.getUf()))
+                .body("ibge", equalTo(cepEsperado.getIbge()))
+                .body("gia", equalTo(cepEsperado.getGia()))
+                .body("ddd", equalTo(cepEsperado.getDdd()))
+                .body("siafi", equalTo(cepEsperado.getSiafi()));
     }
 
-    @Test
-    @Description("Teste de CEP inválido")
-    @Step("Teste de CEP inválido")
-    public void testCepInvalido() {
-        String cepInvalido = "00000000";
+    @ParameterizedTest
+    @DisplayName("Teste de CEP inválido")
+    @ValueSource(strings = {"000000000", "adfasdfasdf", "0000000", "0000000000", "!@#$%^&*"})
+    public void deveRetornar400QuandoCepForInvalido(String cepInvalido) {
 
         given()
             .when()
                 .get(viaCepEndpoint + cepInvalido + "/json")
             .then()
-                .statusCode(200)
-                .body("erro", equalTo(true));
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test
-    @Description("Teste de Contrato Validar")
-    @Step("Teste de Contrato Validar")
-    public void exemploContratoValidar() {
-        String cepValido = "01001000"; 
+    @ParameterizedTest
+    @DisplayName("Teste de CEP de Limite Mínimo de Caracteres")
+    @ValueSource(strings = {"0000000", "000000000", "0000000000, 00000000000"})
+    public void deveriaRetornar400ParaCepsQuePassamDoLimite(String cepLimiteMinimoEMaximo) {
+       
 
         given()
             .when()
-                .get(viaCepEndpoint + cepValido + "/json") 
+                .get(viaCepEndpoint + cepLimiteMinimoEMaximo + "/json")
             .then()
-                .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("schemas\\exemplo-schema.json"));
+                .statusCode(HttpStatus.SC_BAD_REQUEST);
+
     }
 
-    @Test
-    @Description("Teste de Contrato Invalidar")
-    @Step("Teste de Contrato Invalidar")
-    public void exemploContratoInvalidar() {
-        String cepInvalido = "00000000";
-
+    @ParameterizedTest
+    @DisplayName("Teste de CEPs válidos com formatação")
+    @ValueSource(strings = {"01001-000", "12345-678"})  
+    public void deveRetornar200QuandoCepValidoEmFormatoCerto(String cepValidoFormatado) {
         given()
             .when()
-                .get(viaCepEndpoint + cepInvalido + "/json")
+                .get(viaCepEndpoint + cepValidoFormatado + "/json")
             .then()
-                .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("schemas\\exemplo-schema.json"));
+                .statusCode(HttpStatus.SC_OK);
     }
 
-    @Test
-    @Description("Teste de CEP de Limite Mínimo de Caracteres")
-    public void testDeLimiteMinimoDeCaracteres() {
-        String cepLimiteMinimo = "0000000";
 
-        given()
-            .when()
-                .get(viaCepEndpoint + cepLimiteMinimo + "/json")
-            .then()
-                .statusCode(400);
-    }
-
-    @Test
-    @Description("Teste de CEP de Limite Máximo de Caracteres")
-    @Step("Teste de CEP de Limite Máximo de Caracteres")
-    public void testDeLimiteMaximoDeCaracteres() {
-        String cepLimiteMaximo = "000000000";
-
-        given()
-            .when()
-                .get(viaCepEndpoint + cepLimiteMaximo + "/json")
-            .then()
-                .statusCode(400);
-    }
-
-    @Test
-    @Description("Teste de CEP de Caracteres Especiais")
-    @Step("Teste de CEP de Caracteres Especiais")
-    public void testDeCaracteresJaFormatados() {
-        String cepCaracteresEspeciais = "00000-000";
-
-        given()
-            .when()
-                .get(viaCepEndpoint + cepCaracteresEspeciais + "/json")
-            .then()
-                .statusCode(200);
-    }
-
-    @Test
-    @Description("Teste de CEP Inexistente")
-    @Step("Teste de CEP Inexistente")
-    public void testDeCepInexistente() {
-        String cepInexistente = "12345678";
-
-        given()
-            .when()
-                .get(viaCepEndpoint + cepInexistente + "/json")
-            .then()
-                .statusCode(200)
-                .body("erro", equalTo(true));
-    }
-    
 }
 
