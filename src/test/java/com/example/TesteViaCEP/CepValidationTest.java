@@ -58,7 +58,7 @@ public class CepValidationTest {
 
     @ParameterizedTest
     @DisplayName("Teste de CEP inválido")
-    @ValueSource(strings = {"000000000", "adfasdfasdf", "0000000", "0000000000", "!@#$%^&*"})
+    @ValueSource(strings = {"000000000", "adfasdfasdf", "0000000", "0000000000", "!@#$%^&*, 95 01010"})
     public void deveRetornar400QuandoCepForInvalido(String cepInvalido) {
 
         given()
@@ -69,7 +69,7 @@ public class CepValidationTest {
     }
 
     @ParameterizedTest
-    @DisplayName("Teste de CEP de Limite Mínimo de Caracteres")
+    @DisplayName("Teste de CEP de Limite Mínimo e maximo de Caracteres")
     @ValueSource(strings = {"0000000", "000000000", "0000000000, 00000000000"})
     public void deveriaRetornar400ParaCepsQuePassamDoLimite(String cepLimiteMinimoEMaximo) {
        
@@ -83,7 +83,7 @@ public class CepValidationTest {
     }
 
     @ParameterizedTest
-    @DisplayName("Teste de CEPs válidos com formatação")
+    @DisplayName("Teste de CEP válidos com formatação")
     @ValueSource(strings = {"01001-000", "12345-678"})  
     public void deveRetornar200QuandoCepValidoEmFormatoCerto(String cepValidoFormatado) {
         given()
