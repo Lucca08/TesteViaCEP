@@ -4,11 +4,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-@Getter
 @Setter
-@ToString
+@Getter
 @EqualsAndHashCode
+@ToString
 public class CepDto {
     private String cep;
     private String logradouro;

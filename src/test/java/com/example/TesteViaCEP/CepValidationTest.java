@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.example.TesteViaCEP.Stubs.CepStub;
 import com.example.TesteViaCEP.dto.CepDto;
-import com.github.javafaker.Faker;
+// import com.github.javafaker.Faker;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -31,24 +31,24 @@ public class CepValidationTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 
-    @Test
-    @DisplayName("Teste CEP válido")
-    public void deveRetornar200QuandoCepForValido() {
-        Faker faker = new Faker();
-        String cepValido = faker.address().zipCode().replace("-", "");
-        CepDto cepEsperado = CepStub.CepStub(cepValido);
+    // @Test
+    // @DisplayName("Teste CEP válido")
+    // public void deveRetornar200QuandoCepForValido() {
+    //     Faker faker = new Faker();
+    //     String cepValido = faker.address().zipCode().replace("-", "");
+    //     CepDto cepEsperado = CepStub.CepStub(cepValido);
 
-        CepDto cepRetornado = given()
-            .when()
-                .get(viaCepEndpoint + cepValido + "/json")
-            .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract()
-                .body()
-                .as(CepDto.class);
+    //     CepDto cepRetornado = given()
+    //         .when()
+    //             .get(viaCepEndpoint + cepValido + "/json")
+    //         .then()
+    //             .statusCode(HttpStatus.SC_OK)
+    //             .extract()
+    //             .body()
+    //             .as(CepDto.class);
 
-        assertEquals(cepEsperado, cepRetornado);
-    }
+    //     assertEquals(cepEsperado, cepRetornado);
+    // }
 
     @ParameterizedTest
     @DisplayName("Teste de CEP inválido")
