@@ -8,18 +8,15 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Description;
 
-@SpringBootTest
-public class CepContractTest {
+import io.qameta.allure.Description;
+
+public class TesteContratoCep {
     
-    @Value("${viacep.endpoint}")
-    private String viaCepEndpoint;
+    private static final String viaCepEndpoint = "https://viacep.com.br/ws/";
 
     @Test
-    @Description("Teste de contrato CEP valido")
+    @Description("Testa contrato para CEP válido")
     public void deveRetornar200QuandoCepForValido(){
         String cepValido = "01001000"; 
         
@@ -42,7 +39,7 @@ public class CepContractTest {
     }
 
     @ParameterizedTest
-    @Description("Teste de contrato CEP inválido")
+    @Description("Testa contrato para CEP inválido")
     @ValueSource(strings = {"000000000", "99999999", "1234", "abcde123"})
     public void deveRetornar400QuandoCepForInvalido(String cepInvalido) {
         given()
@@ -50,6 +47,5 @@ public class CepContractTest {
                 .get(viaCepEndpoint + cepInvalido + "/json")
             .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
-               
     }
 }

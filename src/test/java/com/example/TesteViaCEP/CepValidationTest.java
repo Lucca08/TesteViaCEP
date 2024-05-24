@@ -1,25 +1,23 @@
 package com.example.TesteViaCEP;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import org.apache.http.HttpStatus;
 
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.TesteViaCEP.Stubs.CepStub;
 import com.example.TesteViaCEP.dto.CepDto;
+import com.github.javafaker.Faker;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CepValidationTest {
 
-    @Value("${viacep.endpoint}")
-    private String viaCepEndpoint;
+    private static final String viaCepEndpoint = "https://viacep.com.br/ws/";
 
     @Test
     @DisplayName("Teste de CEP vazio")
@@ -34,33 +32,28 @@ public class CepValidationTest {
     }
 
     @Test
-    @DisplayName("Teste CEP valido")
+    @DisplayName("Teste CEP válido")
     public void deveRetornar200QuandoCepForValido() {
-        String cepValido = "01001000";
-        CepDto cepEsperado = CepStub.CepStub();
+        Faker faker = new Faker();
+        String cepValido = faker.address().zipCode().replace("-", "");
+        CepDto cepEsperado = CepStub.CepStub(cepValido);
 
-        given()
+        CepDto cepRetornado = given()
             .when()
                 .get(viaCepEndpoint + cepValido + "/json")
             .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("cep", equalTo(cepEsperado.getCep()))
-                .body("logradouro", equalTo(cepEsperado.getLogradouro()))
-                .body("complemento", equalTo(cepEsperado.getComplemento()))
-                .body("bairro", equalTo(cepEsperado.getBairro()))
-                .body("localidade", equalTo(cepEsperado.getLocalidade()))
-                .body("uf", equalTo(cepEsperado.getUf()))
-                .body("ibge", equalTo(cepEsperado.getIbge()))
-                .body("gia", equalTo(cepEsperado.getGia()))
-                .body("ddd", equalTo(cepEsperado.getDdd()))
-                .body("siafi", equalTo(cepEsperado.getSiafi()));
+                .extract()
+                .body()
+                .as(CepDto.class);
+
+        assertEquals(cepEsperado, cepRetornado);
     }
 
     @ParameterizedTest
     @DisplayName("Teste de CEP inválido")
     @ValueSource(strings = {"000000000", "adfasdfasdf", "0000000", "0000000000", "!@#$%^&*, 95 01010"})
-    public void deveRetornar400QuandoCepForInvalido(String cepInvalido) {
-
+    public void deveRetornar400QuandoCepInvalido(String cepInvalido) {
         given()
             .when()
                 .get(viaCepEndpoint + cepInvalido + "/json")
@@ -69,17 +62,14 @@ public class CepValidationTest {
     }
 
     @ParameterizedTest
-    @DisplayName("Teste de CEP de Limite Mínimo e maximo de Caracteres")
-    @ValueSource(strings = {"0000000", "000000000", "0000000000, 00000000000"})
-    public void deveriaRetornar400ParaCepsQuePassamDoLimite(String cepLimiteMinimoEMaximo) {
-       
-
+    @DisplayName("Teste de CEP de Limite Mínimo e Máximo de Caracteres")
+    @ValueSource(strings = {"0000000", "000000000", "0000000000", "00000000000"})
+    public void deveRetornar400ParaCepsQuePassamDoLimite(String cepLimiteMinimoEMaximo) {
         given()
             .when()
                 .get(viaCepEndpoint + cepLimiteMinimoEMaximo + "/json")
             .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
-
     }
 
     @ParameterizedTest
@@ -92,7 +82,4 @@ public class CepValidationTest {
             .then()
                 .statusCode(HttpStatus.SC_OK);
     }
-
-
 }
-

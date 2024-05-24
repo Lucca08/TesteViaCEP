@@ -70,7 +70,8 @@ Descrição: Verificar se a API retorna um status 400
 
 4. CEP Válido
 
-Descrição: Verificar se a API retorna um status 200(OK) e o conteúdo esperado quando um CEP válido é fornecido.
+Descrição: Verificar se a API retorna um status 200(OK) e o 
+conteúdo esperado quando um CEP válido é fornecido.
 
 5. CEP Inválido
 
@@ -80,11 +81,13 @@ Descrição: Verifica se a API retorna um status 400
 5. Teste de CEP com Limite Mínimo e Máximo de Caracteres
 
 Descrição: Verifica se a API retorna um status 400
-(Bad Request) quando um CEP com menos ou mais caracteres do que o permitido é fornecido.
+(Bad Request) quando um CEP com menos ou mais caracteres 
+do que o permitido é fornecido.
 
 6. Teste de CEP Válido com Formatação
 
-Descrição: Verifica se a API retorna um status 200 (OK) quando um CEP válido é fornecido com formatação (máscara).
+Descrição: Verifica se a API retorna um status 200 (OK) quando 
+um CEP válido é fornecido com formatação (máscara).
 
 ## Bugs encontrados
 
