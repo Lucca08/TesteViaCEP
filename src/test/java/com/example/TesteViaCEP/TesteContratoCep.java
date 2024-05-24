@@ -46,7 +46,7 @@ public class TesteContratoCep {
             .when()
                 .get(viaCepEndpoint + cepInvalido + "/json")
             .then()
-                .log().ifValidationFails()  // Adicione isso para logar a resposta se a validação falhar
+                .log().ifValidationFails()  
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
     }
 }

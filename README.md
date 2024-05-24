@@ -23,18 +23,13 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 ## 3-Dependências
 
-- org.springframework.boot:spring-boot-starter-data-jpa
-- org.hibernate.validator:hibernate-validator
-- org.springframework.boot:spring-boot-starter-web
-- org.projectlombok:lombok
-- org.springframework.boot:spring-boot-devtools
-- com.h2database:h2
-- org.springframework.boot:spring-boot-starter-test
-- io.rest-assured:rest-assured
-- io.rest-assured:json-schema-validator
-- org.springdoc:springdoc-openapi-starter-webmvc-ui
-
-
+- testImplementation 'io.rest-assured:rest-assured:5.3.2'
+- implementation 'io.rest-assured:json-schema-validator:5.4.0'
+- testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0-M2'
+- testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
+- testImplementation 'org.slf4j:slf4j-simple:1.7.36' 
+- testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M2' 
+- implementation 'net.datafaker:datafaker:2.2.2'
 
 ## 4-Cenários de teste
 
@@ -46,10 +41,11 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 ## Testes 
 
 3. CEP Vazio
-4. CEP Valido
-5. CEP Inválido
-6. CEP Limite Mínimo e Maximo
-7. CEP Válido com Formatação
+4. CEP Válido Com Faker
+5. CEP Válido com o Stub
+6. CEP Inválido
+7. CEP Limite Mínimo e Maximo
+8. CEP Válido com Formatação
 
 ## Detalhamento 
 
@@ -68,23 +64,28 @@ Descrição: Verificar se a API retorna um status 400
 Descrição: Verificar se a API retorna um status 400
 (Bad Request) quando o CEP está vazio.
 
-4. CEP Válido
+4. CEP Válido com faker
 
-Descrição: Verificar se a API retorna um status 200(OK) e o 
-conteúdo esperado quando um CEP válido é fornecido.
+Descrição: Verificar se a API retorna um status 200(OK) 
+quando um gerador de dados(Faker) passa um CEP.
 
-5. CEP Inválido
+5. CEP Válido com o stub
+
+Descrição: Verifica se a API retorna um status 200(OK) 
+quando é passado um valor de CEP igual ao stub.
+
+6. CEP Inválido
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP inválido é fornecido.
 
-5. Teste de CEP com Limite Mínimo e Máximo de Caracteres
+7. Teste de CEP com Limite Mínimo e Máximo de Caracteres
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP com menos ou mais caracteres 
 do que o permitido é fornecido.
 
-6. Teste de CEP Válido com Formatação
+8. Teste de CEP Válido com Formatação
 
 Descrição: Verifica se a API retorna um status 200 (OK) quando 
 um CEP válido é fornecido com formatação (máscara).
@@ -104,7 +105,10 @@ corretamente os CEPs inválidos conforme a
 documentação.
 
 ## 5-Rode os testes 
-
+1. Comando para rodar testes
+    ```bash
+    gradle test
+    ```
 
 
 ## 6-Gerar Relatorio de Teste
@@ -116,4 +120,4 @@ documentação.
 
 ## Relatório gerado pelo Allure:
 
-![Imagem do Relatório](src/main/resources/img/relatorio.png)
+![Imagem do Relatório](src/main/resources/img/Relatorio_Allure.png)
