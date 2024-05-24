@@ -10,15 +10,13 @@ import com.example.TesteViaCEP.Stubs.CepStub;
 import com.example.TesteViaCEP.dto.CepDto;
 
 import net.datafaker.Faker;
-import net.datafaker.service.FakeValuesService;
-import net.datafaker.service.RandomService;
+
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.util.Locale;
 
@@ -40,7 +38,7 @@ public class CepValidationTest {
 
     @Test
     @DisplayName("Teste CEP válido")
-    public void deveRetornar200QuandoCepForValido() {
+    public void deveRetornar200QuandoCepForValidoComFaker() {
         Faker faker = new Faker(new Locale("pt-BR"));
         String cep = faker.address().zipCode();
        

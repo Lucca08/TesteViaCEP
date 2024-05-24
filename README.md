@@ -35,57 +35,63 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 ## Testes de Contrato 
 
-1. CEP Válido
-2. CEP Inválido 
+- CT001 -Deve Retornar 200 Quando Cep For Válido
+
+- CT002 -Deve Retornar 400 Quando Cep For Inválido
 
 ## Testes 
 
-3. CEP Vazio
-4. CEP Válido Com Faker
-5. CEP Válido com o Stub
-6. CEP Inválido
-7. CEP Limite Mínimo e Maximo
-8. CEP Válido com Formatação
+- CT003 -Deve Retornar 400 Quando Cep Nao For Informado
+
+- CT004 -Deve Retornar 200 Quando Cep For Valido Com Faker
+
+- CT005 -Deve Retornar 200 Quando Cep For Valido Com Stub
+
+- CT006 -Deve Retornar 400 Quando Cep Invalido
+
+- CT007 -Deve Retornar 400 Para Ceps Que Passam Do Limite
+
+- CT008 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
 
 ## Detalhamento 
 
-1. Teste de Contrato: CEP Válido
+- CT001 -Deve Retornar 200 Quando Cep For Válido
 
 Descrição: Verificar se a API retorna um status
 todos os campos necessarios para um retorno 200 (OK).
 
-2. Teste de Contrato: CEP Inválido
+- CT002 -Deve Retornar 400 Quando Cep For Inválido
 
 Descrição: Verificar se a API retorna um status 400
 (Bad Request) CEP inválido é fornecido e CEP não cadastrado.
 
-3. CEP Vazio
+- CT003 -Deve Retornar 400 Quando Cep Nao For Informado
 
 Descrição: Verificar se a API retorna um status 400
 (Bad Request) quando o CEP está vazio.
 
-4. CEP Válido com faker
+- CT004 -Deve Retornar 200 Quando Cep For Valido Com Faker
 
 Descrição: Verificar se a API retorna um status 200(OK) 
 quando um gerador de dados(Faker) passa um CEP.
 
-5. CEP Válido com o stub
+- CT005 -Deve Retornar 200 Quando Cep For Valido Com Stub
 
 Descrição: Verifica se a API retorna um status 200(OK) 
 quando é passado um valor de CEP igual ao stub.
 
-6. CEP Inválido
+- CT006 -Deve Retornar 400 Quando Cep Invalido
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP inválido é fornecido.
 
-7. Teste de CEP com Limite Mínimo e Máximo de Caracteres
+- CT007 -Deve Retornar 400 Para Ceps Que Passam Do Limite
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP com menos ou mais caracteres 
 do que o permitido é fornecido.
 
-8. Teste de CEP Válido com Formatação
+- CT008 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
 
 Descrição: Verifica se a API retorna um status 200 (OK) quando 
 um CEP válido é fornecido com formatação (máscara).
