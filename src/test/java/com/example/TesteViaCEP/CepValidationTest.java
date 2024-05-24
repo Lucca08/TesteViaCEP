@@ -37,7 +37,7 @@ public class CepValidationTest {
     public void deveRetornar200QuandoCepForValido() {
         Faker faker = new Faker();
         String cepValido = faker.address().zipCode().replace("-", "");
-        System.out.println("CEP gerado: " + cepValido); // Adiciona esta linha para imprimir o CEP gerado
+        System.out.println("CEP gerado: " + cepValido); 
         CepDto cepEsperado = CepStub.CepStub(cepValido);
     
         CepDto cepRetornado = given()
@@ -51,6 +51,7 @@ public class CepValidationTest {
     
         assertEquals(cepEsperado, cepRetornado);
     }
+    
     
 
     @ParameterizedTest
