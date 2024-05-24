@@ -21,9 +21,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-    all {
-        exclude group: 'org.yaml', module: 'snakeyaml'
-    }
+
 }
 
 dependencies {
@@ -33,7 +31,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
     testImplementation 'org.slf4j:slf4j-simple:1.7.36'  // Adicionei SLF4J aqui
 	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M2'  // Adicione esta linha para o motor do JUnit
-	    testImplementation 'com.github.javafaker:javafaker:1.0.2'  // Adicione esta linha
+implementation 'net.datafaker:datafaker:2.2.2'
 
 }
 

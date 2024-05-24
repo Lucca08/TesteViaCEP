@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import com.example.TesteViaCEP.Stubs.CepStub;
 import com.example.TesteViaCEP.dto.CepDto;
-import com.github.javafaker.Faker;
+
+import net.datafaker.Faker;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -36,8 +37,9 @@ public class CepValidationTest {
     public void deveRetornar200QuandoCepForValido() {
         Faker faker = new Faker();
         String cepValido = faker.address().zipCode().replace("-", "");
+        System.out.println("CEP gerado: " + cepValido); // Adiciona esta linha para imprimir o CEP gerado
         CepDto cepEsperado = CepStub.CepStub(cepValido);
-
+    
         CepDto cepRetornado = given()
             .when()
                 .get(viaCepEndpoint + cepValido + "/json")
@@ -46,9 +48,10 @@ public class CepValidationTest {
                 .extract()
                 .body()
                 .as(CepDto.class);
-
+    
         assertEquals(cepEsperado, cepRetornado);
     }
+    
 
     @ParameterizedTest
     @DisplayName("Teste de CEP inválido")
