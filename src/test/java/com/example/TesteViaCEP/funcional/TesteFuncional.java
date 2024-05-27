@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Locale;
 
-public class CepValidationTest extends BaseTest{
+public class TesteFuncional extends BaseTest{
 
 
     @Test
@@ -48,9 +48,6 @@ public class CepValidationTest extends BaseTest{
                 .get(viaCepEndpoint + cep + "/json")
             .then()
                 .statusCode(HttpStatus.SC_OK);
-
-
-
     }
 
     @Test
@@ -105,24 +102,4 @@ public class CepValidationTest extends BaseTest{
                 .body(containsString("ViaCEP 400")); 
     }
 
-    @ParameterizedTest
-    @DisplayName("Teste de CEP válidos com formatação")
-    @ValueSource(strings = {"01001-000"})  
-    public void deveRetornar200QuandoCepValidoEmFormatoCerto(String cepValidoFormatado) {
-        given()
-            .when()
-                .get(viaCepEndpoint + cepValidoFormatado + "/json")
-            .then()
-                .statusCode(HttpStatus.SC_OK)
-                .body(containsString("cep"))
-                .body(containsString("logradouro"))
-                .body(containsString("complemento"))
-                .body(containsString("bairro"))
-                .body(containsString("localidade"))
-                .body(containsString("uf"))
-                .body(containsString("ibge"))
-                .body(containsString("gia"))
-                .body(containsString("ddd"))
-                .body(containsString("siafi"));
-    }
 }

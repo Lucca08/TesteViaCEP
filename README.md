@@ -39,19 +39,25 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 - CT002 -Deve Retornar 400 Quando Cep For Inválido
 
-## Testes 
+- CT003 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
 
-- CT003 -Deve Retornar 400 Quando Cep Nao For Informado
+## Testes Funcionais 
 
-- CT004 -Deve Retornar 200 Quando Cep For Valido Com Faker
+- CT004 -Deve Retornar 400 Quando Cep Nao For Informado
 
-- CT005 -Deve Retornar 200 Quando Cep For Valido Com Stub
+- CT005 -Deve Retornar 200 Quando Cep For Valido Com Faker
 
-- CT006 -Deve Retornar 400 Quando Cep Invalido
+- CT006 -Deve Retornar 200 Quando Cep For Valido Com Stub
 
-- CT007 -Deve Retornar 400 Para Ceps Que Passam Do Limite
+- CT007 -Deve Retornar 400 Quando Cep Invalido
 
-- CT008 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
+- CT008 -Deve Retornar 400 Para Ceps Que Passam Do Limite
+
+- CT009 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
+
+## Teste  de Performance 
+
+- CT010 -Deve Responder Rapidamente Para Cep Valido
 
 ## Detalhamento 
 
@@ -65,37 +71,44 @@ todos os campos necessarios para um retorno 200 (OK).
 Descrição: Verificar se a API retorna um status 400
 (Bad Request) CEP inválido é fornecido e CEP não cadastrado.
 
-- CT003 -Deve Retornar 400 Quando Cep Nao For Informado
+- CT003 - Deve Retornar 200 Quando Cep Valido Em Formato Certo
+
+Descrição: Verificar se a API retorna um status 200 (OK) quando um CEP válido é fornecido no formato correto (com máscara).
+
+- CT004 -Deve Retornar 400 Quando Cep Nao For Informado
 
 Descrição: Verificar se a API retorna um status 400
 (Bad Request) quando o CEP está vazio.
 
-- CT004 -Deve Retornar 200 Quando Cep For Valido Com Faker
+- CT005 -Deve Retornar 200 Quando Cep For Valido Com Faker
 
 Descrição: Verificar se a API retorna um status 200(OK) 
 quando um gerador de dados(Faker) passa um CEP.
 
-- CT005 -Deve Retornar 200 Quando Cep For Valido Com Stub
+- CT006 -Deve Retornar 200 Quando Cep For Valido Com Stub
 
 Descrição: Verifica se a API retorna um status 200(OK) 
 quando é passado um valor de CEP igual ao stub.
 
-- CT006 -Deve Retornar 400 Quando Cep Invalido
+- CT007 -Deve Retornar 400 Quando Cep Invalido
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP inválido é fornecido.
 
-- CT007 -Deve Retornar 400 Para Ceps Que Passam Do Limite
+- CT008 -Deve Retornar 400 Para Ceps Que Passam Do Limite
 
 Descrição: Verifica se a API retorna um status 400
 (Bad Request) quando um CEP com menos ou mais caracteres 
 do que o permitido é fornecido.
 
-- CT008 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
+- CT009 -Deve Retornar 200 Quando Cep Valido Em Formato Certo
 
 Descrição: Verifica se a API retorna um status 200 (OK) quando 
 um CEP válido é fornecido com formatação (máscara).
 
+- CT010 -Deve Responder Rapidamente Para Cep Valido
+ 
+Descrição: Verificar se a API responde rapidamente (dentro de um tempo aceitável) para um CEP válido.
 ## Bugs encontrados
 
 
@@ -115,9 +128,11 @@ documentação.
     ```bash
     gradle test
     ```
+## 6-Tabela de decisao
 
+[tabelaDeDecisao.md](TabelaDeDecisao.md)
 
-## 6-Gerar Relatorio de Teste
+## 7-Gerar Relatorio de Teste
 
 1. Gere o relatório Allure:
     ```bash
