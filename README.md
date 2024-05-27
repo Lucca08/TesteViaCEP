@@ -51,7 +51,7 @@ documentação.
 
 ## 6-Tabela de decisao
 
-[tabelaDeDecisao.md](TabelaDeDecisao.md)
+[Tabela De Decisao](TabelaDeDecisao.md)
 
 ## 7-Rode os testes 
 
