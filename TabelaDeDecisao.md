@@ -1,7 +1,7 @@
-| Condição                                         | CEP Válido | CEP Inexistente | CEP com Formato Inválido | CEP Vazio | CEP com Espaços ou Caracteres Especiais | CEP com Limite de Caracteres |
+| Condição                                         | CEP Válido | CEP Inválido | CEP com Formato Inválido | CEP Vazio | CEP com Espaços ou Caracteres Especiais | CEP com Limite de Caracteres |
 |--------------------------------------------------|------------|-----------------|--------------------------|-----------|------------------------------------------|------------------------------|
 | **Retornar Status 200**                          | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
-| **Retornar Status 400**                          | Não        | Não             | Sim                      | Sim       | Sim                                      | Sim                          |
-| **Retornar Status 404**                          | Não        | Sim             | Não                      | Não       | Não                                      | Não                          |
-| **Validar Estrutura do JSON**                    | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
+| **Retornar Status 400**                          | Não        | Sim             | Sim                      | Sim       | Sim                                      | Sim                          |
+|  **Validar Estrutura do JSON**                    | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
 | **Verificar Mensagem de Erro**                   | Não        | Sim             | Sim                      | Sim       | Sim                                      | Sim                          |
+| **Verificar Propriedades (cep, logradouro, etc.)**                   | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
