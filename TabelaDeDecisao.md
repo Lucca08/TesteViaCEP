@@ -4,4 +4,4 @@
 | **Retornar Status 400**                          | Não        | Sim             | Sim                      | Sim       | Sim                                      | Sim                          |
 |  **Validar Estrutura do JSON**                    | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
 | **Verificar Mensagem de Erro**                   | Não        | Sim             | Sim                      | Sim       | Sim                                      | Sim                          |
-| **Verificar Propriedades (cep, logradouro, etc.)**                   | Sim        | Não             | Não                      | Não       | Não                                      | Não                          |
+| **Verificar Propriedades (cep, logradouro, etc.)**                   | Sim        | Não             | Não                      | Não       | Não                                      |            Não               |
