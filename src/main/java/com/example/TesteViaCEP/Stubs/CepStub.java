@@ -3,9 +3,9 @@ package com.example.TesteViaCEP.Stubs;
 import com.example.TesteViaCEP.dto.CepDto;
 
 public class CepStub {
-    public static CepDto CepStub(String cep) {
+    public static CepDto CepStub() {
         CepDto cepDto = new CepDto();
-        cepDto.setCep(cep);
+        cepDto.setCep("01001-000");
         cepDto.setLogradouro("Praça da Sé");
         cepDto.setComplemento("lado ímpar");
         cepDto.setBairro("Sé");
