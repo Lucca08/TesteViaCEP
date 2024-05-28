@@ -17,6 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Locale;
@@ -101,5 +102,76 @@ public class TesteFuncional extends BaseTest{
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(containsString("ViaCEP 400")); 
     }
+
+
+    @Test
+    @DisplayName("Teste de CEP pesquisado por endereço")
+    public void deveRetornar200ParaCepPesquisado() {
+
+        String uf = "RS";
+        String cidade = "Porto Alegre";
+        String logradouro = "Domingos";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + uf + "/" + cidade + "/" + logradouro + "/json")
+            .then()
+                .statusCode(HttpStatus.SC_OK) 
+                .body("[0].cep", equalTo("91420-270")) 
+                .body("[0].logradouro", equalTo("Rua São Domingos")) 
+                .body("[0].localidade", equalTo("Porto Alegre")); 
+    }
+
+
+    @Test
+    @DisplayName("Teste de CEP pesquisado por endereço com logradouro inexistente")
+    public void deveRetornar400ParaCepPesquisadoPorEnderecoComLogradorInexistente() {
+
+        String uf = "RS";
+        String cidade = "Porto Alegre";
+        String logradouro = "??????";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + uf + "/" + cidade + "/" + logradouro + "/json")
+            .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("ViaCEP 400"));
+    }
+
+    @Test
+    @DisplayName("Teste de CEP pesquisado por endereço com cidade inexistente")
+    public void deveRetornar400ParaCepPesquisadoPorEnderecoComCidadeInexistente() {
+
+        String uf = "RS";
+        String cidade = "??????";
+        String logradouro = "Domingos";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + uf + "/" + cidade + "/" + logradouro + "/json")
+            .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("ViaCEP 400"));
+    }
+
+    @Test
+    @DisplayName("Teste de CEP pesquisado por endereço com UF inexistente")
+    public void deveRetornar400ParaCepPesquisadoPorEnderecoComUfInexistente() {
+
+        String uf = "??";
+        String cidade = "Porto Alegre";
+        String logradouro = "Domingos";
+
+        given()
+            .when()
+                .get(viaCepEndpoint + uf + "/" + cidade + "/" + logradouro + "/json")
+            .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body(containsString("ViaCEP 400"));
+    }
+
+
+
 
 }

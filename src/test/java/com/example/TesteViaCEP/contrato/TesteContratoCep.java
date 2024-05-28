@@ -65,18 +65,36 @@ public class TesteContratoCep extends BaseTest{
                 .body("$", hasKey("siafi"));
     }
     
-
     @ParameterizedTest
     @Description("Testa contrato para CEP inválido")
-    @ValueSource(strings = {"000000000", "1234", "95010A10","99999999"})
+    @ValueSource(strings = {"000000000", "1234", "95010A10", "99999999"})
     public void deveRetornar400QuandoCepForInvalido(String cepInvalido) {
         given()
             .when()
                 .get(viaCepEndpoint + cepInvalido + "/json")
             .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(containsString("ViaCEP 400")); 
+                .body(containsString("Http 400"))
+                .body(containsString("Verifique a URL"))
+                .body(containsString("Bad Request"));
     }
+
+    @Test
+    @DisplayName("Teste de CEP que não foi registrado")
+    public void deveRetornar200ErrorQuandoCepForNãoRegistrado() {
+        String cepBugado = "99999999";
+        
+        given()
+            .when()
+                .get(viaCepEndpoint + cepBugado + "/json")
+            .then()
+               .body(matchesJsonSchemaInClasspath("schemas/erro-schema.json"))
+                .statusCode(HttpStatus.SC_OK);
+
+               
+    }
+    
+    
 
    
 

@@ -37,17 +37,7 @@ Este projeto realiza testes automatizados utilizando RestAssured para validaçã
 
 ## 5-Bugs encontrados
 
-No cenário de teste de contrato para CEP inválido, 
-foi identificado um bug. Ao utilizar o CEP
-99999999, que está documentado no projeto como um 
-exemplo de CEP inválido, a API retornou um status 
-200 (OK). O comportamento esperado seria um status
-400 (Bad Request), indicando que o CEP fornecido 
-não é válido. Portanto, a resposta 200 é 
-considerada um bug,pois a API não está tratando 
-corretamente os CEPs inválidos conforme a 
-documentação.
-
+[Bug](Bug.md)
 
 ## 6-Tabela de decisao
 
