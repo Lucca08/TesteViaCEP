@@ -17,7 +17,7 @@ ainda considero ele como um bug.
 
 ## Passos para Reproduzir
 
-1. Enviar uma requisição GET para `viaCepEndpoint/99999999/json`
+1. Enviar uma requisição GET para `https://viacep.com.br/ws/99999999/json`
 2. Observar que a resposta é 200 (OK) em vez de 400 (Bad Request)
 
 ## Comportamento Esperado
